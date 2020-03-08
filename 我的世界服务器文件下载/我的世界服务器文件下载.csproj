@@ -58,6 +58,8 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\我的世界服务器文件下载.Menu.resources" />
+    <EmbeddedResource Include="obj\Debug\我的世界服务器文件下载.Properties.Resources.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,6 +72,11 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+    <None Include="bin\Debug\我的世界服务器文件下载.exe.config" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\Debug\我的世界服务器文件下载.csproj.GenerateResource.cache" />
+    <None Include="obj\Debug\我的世界服务器文件下载.csprojAssemblyReference.cache" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -82,6 +89,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\我的世界服务器文件下载.exe" />
+    <Content Include="bin\Debug\我的世界服务器文件下载.pdb" />
+    <Content Include="obj\Debug\我的世界服务器文件下载.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\我的世界服务器文件下载.exe" />
+    <Content Include="obj\Debug\我的世界服务器文件下载.pdb" />
+    <Content Include="obj\Debug\我的世界服务器文件下载[C#版].exe" />
+    <Content Include="Resources\Minecraft.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="obj\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
