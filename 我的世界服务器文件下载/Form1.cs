@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 
 namespace 我的世界服务器文件下载
@@ -162,7 +163,7 @@ namespace 我的世界服务器文件下载
 
         private void info_copyright_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("C#开发\n我的世界BE服务端文件下载器\n可转载至非商业用途\n作者：貔貅I勿念\n联系QQ：2586850402");
+            MessageBox.Show("C#开发,GitHub开源\n我的世界BE服务端文件下载器\n可转载至非商业用途\n作者：貔貅I勿念\n联系QQ：2586850402","AppInfo");
         }
 
         private void CopyWinAddr_Click(object sender, EventArgs e)
@@ -189,6 +190,37 @@ namespace 我的世界服务器文件下载
             {
                 TagShow("没有获取到远程下载地址");
             }
+        }
+
+        private void Exitbtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        [DllImport("user32.Dll", EntryPoint = "ReleaseCapture")]
+        public extern static void ReleaseCapture();
+
+        [DllImport("user32.Dll", EntryPoint = "SendMessage")]
+        public extern static void SendMessage(System.IntPtr hWnd , int wMsg , int wParam , int lParam);
+
+
+        // 用于移动窗口
+        private void TitleMenu_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle,0x112,0xf012,0);
+        }
+
+        private void TITLE_Click(object sender, EventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
+
+        private void TITLE_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
         }
     }
 }
