@@ -11,13 +11,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-
+using Tools;
+using Tools.Net;
 
 namespace 我的世界服务器文件下载
 {
     public partial class Menu : Form
     {
         public String RunDir = Directory.GetCurrentDirectory();
+        public String Tail = ".MCBDS";
+
         public String Serveraddr = "https://www.minecraft.net/zh-hans/download/server/bedrock/";
         public String Httpdata = "";
         public String PilterA = "https://minecraft.azureedge.net/bin-win/bedrock-server-";
@@ -73,7 +76,7 @@ namespace 我的世界服务器文件下载
         }
         private void Menu_Load(object sender, EventArgs e)
         {
-
+            CheckForIllegalCrossThreadCalls = false;    //允许线程操作UI
         }
 
         private void DownInformation_Click(object sender, EventArgs e)
@@ -125,14 +128,35 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("开始下载Windows服务端程序");
-                download DownWinServer = new download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip");
+                if (File.Exists(RunDir + $"\\WinSer{WinVersion}.zip")) 
+                {
+                    TagShow($"WinSer{WinVersion}.zip下载结束[文件存在]");
+                    return;
+                }
+
+                Download DownWinServer = new Download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip"+Tail);
+                double win_percent;
+                DownWinServer.Downprogress += (long filesize, long httpsize, bool isok) =>
+                {
+                    if (isok)
+                    {
+                        TagShow($"WinSer{WinVersion}.zip下载完成");
+                        new FileInfo(RunDir+ $"\\WinSer{WinVersion}.zip" + Tail).MoveTo(RunDir + $"\\WinSer{WinVersion}.zip");
+                    }
+
+                    win_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
+                    if ((int)win_percent <= 100) Win_Bar.Value = (int)win_percent;
+
+
+                };
+
                 if (DownWinServer.Start())
                 {
-                    TagShow("下载完成");
+                    TagShow($"WinSer{WinVersion}.zip开始下载");
                 }
                 else
                 {
-                    TagShow("下载失败");
+                    TagShow($"WinSer{WinVersion}.zip下载失败");
                 }
                 
             }
@@ -148,14 +172,36 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("开始下载Linux服务端程序");
-                download DownLinuxServer = new download(LinuxSerDownaddr, RunDir, $"LinuxSer{LinuxVersion}.zip");
+                if (File.Exists(RunDir+ $"\\LinuxSer{LinuxVersion}.zip"))
+                {
+                    TagShow($"LinuxSer{LinuxVersion}.zip下载结束[文件存在]");
+                    return;
+                }
+
+                Download DownLinuxServer = new Download(LinuxSerDownaddr,RunDir,$"LinuxSer{LinuxVersion}.zip" + Tail);
+
+                double lin_percent;
+                DownLinuxServer.Downprogress += (long filesize, long httpsize, bool isok) =>
+                {
+                    if (isok)
+                    {
+                        TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
+                        new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail).MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip");
+                    }
+
+                    lin_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
+                    if ((int)lin_percent <= 100) Lin_Bar.Value = (int)lin_percent;
+
+
+                };
+
                 if (DownLinuxServer.Start())
                 {
-                    TagShow("下载完成");
+                    TagShow($"LinuxSer{LinuxVersion}.zip开始下载");
                 }
                 else
                 {
-                    TagShow("下载失败");
+                    TagShow($"LinuxSer{LinuxVersion}.zip下载失败");
                 }
 
             }
@@ -211,11 +257,6 @@ namespace 我的世界服务器文件下载
             SendMessage(this.Handle,0x112,0xf012,0);
         }
 
-        private void TITLE_Click(object sender, EventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
-        }
 
         private void TITLE_MouseDown(object sender, MouseEventArgs e)
         {

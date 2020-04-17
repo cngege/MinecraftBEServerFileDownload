@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.TitleMenu = new System.Windows.Forms.Panel();
+            this.TITLE = new System.Windows.Forms.Label();
+            this.Exitbtn = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.info_copyright = new System.Windows.Forms.Button();
             this.CopyLinuxAddr = new System.Windows.Forms.Button();
@@ -38,11 +40,13 @@
             this.DownWinServer = new System.Windows.Forms.Button();
             this.DownInformation = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.Exitbtn = new System.Windows.Forms.PictureBox();
-            this.TITLE = new System.Windows.Forms.Label();
+            this.Win_Text = new System.Windows.Forms.Label();
+            this.Lin_Text = new System.Windows.Forms.Label();
+            this.Win_Bar = new System.Windows.Forms.ProgressBar();
+            this.Lin_Bar = new System.Windows.Forms.ProgressBar();
             this.TitleMenu.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitleMenu
@@ -57,9 +61,39 @@
             this.TitleMenu.TabIndex = 7;
             this.TitleMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleMenu_MouseDown);
             // 
+            // TITLE
+            // 
+            this.TITLE.AutoSize = true;
+            this.TITLE.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TITLE.ForeColor = System.Drawing.Color.White;
+            this.TITLE.Location = new System.Drawing.Point(12, 4);
+            this.TITLE.Name = "TITLE";
+            this.TITLE.Size = new System.Drawing.Size(258, 17);
+            this.TITLE.TabIndex = 1;
+            this.TITLE.Text = "我的世界BE服务器文件下载[QQ:2586850402]";
+            this.TITLE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TITLE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TITLE_MouseDown);
+            // 
+            // Exitbtn
+            // 
+            this.Exitbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Exitbtn.Image = ((System.Drawing.Image)(resources.GetObject("Exitbtn.Image")));
+            this.Exitbtn.Location = new System.Drawing.Point(363, 0);
+            this.Exitbtn.Name = "Exitbtn";
+            this.Exitbtn.Size = new System.Drawing.Size(25, 24);
+            this.Exitbtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Exitbtn.TabIndex = 0;
+            this.Exitbtn.TabStop = false;
+            this.Exitbtn.Tag = "";
+            this.Exitbtn.Click += new System.EventHandler(this.Exitbtn_Click);
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(68)))));
+            this.panel2.Controls.Add(this.Lin_Bar);
+            this.panel2.Controls.Add(this.Win_Bar);
+            this.panel2.Controls.Add(this.Lin_Text);
+            this.panel2.Controls.Add(this.Win_Text);
             this.panel2.Controls.Add(this.info_copyright);
             this.panel2.Controls.Add(this.CopyLinuxAddr);
             this.panel2.Controls.Add(this.CopyWinAddr);
@@ -70,7 +104,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(400, 176);
+            this.panel2.Size = new System.Drawing.Size(400, 216);
             this.panel2.TabIndex = 8;
             // 
             // info_copyright
@@ -168,37 +202,47 @@
             this.label1.Text = "我的世界PE国际版服务器文件下载[当前位置]";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Exitbtn
+            // Win_Text
             // 
-            this.Exitbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exitbtn.Image = ((System.Drawing.Image)(resources.GetObject("Exitbtn.Image")));
-            this.Exitbtn.Location = new System.Drawing.Point(363, 0);
-            this.Exitbtn.Name = "Exitbtn";
-            this.Exitbtn.Size = new System.Drawing.Size(25, 24);
-            this.Exitbtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Exitbtn.TabIndex = 0;
-            this.Exitbtn.TabStop = false;
-            this.Exitbtn.Tag = "";
-            this.Exitbtn.Click += new System.EventHandler(this.Exitbtn_Click);
+            this.Win_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Win_Text.ForeColor = System.Drawing.Color.White;
+            this.Win_Text.Location = new System.Drawing.Point(24, 159);
+            this.Win_Text.Name = "Win_Text";
+            this.Win_Text.Size = new System.Drawing.Size(76, 24);
+            this.Win_Text.TabIndex = 8;
+            this.Win_Text.Text = "Win_BDS";
+            this.Win_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // TITLE
+            // Lin_Text
             // 
-            this.TITLE.AutoSize = true;
-            this.TITLE.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TITLE.ForeColor = System.Drawing.Color.White;
-            this.TITLE.Location = new System.Drawing.Point(12, 4);
-            this.TITLE.Name = "TITLE";
-            this.TITLE.Size = new System.Drawing.Size(258, 17);
-            this.TITLE.TabIndex = 1;
-            this.TITLE.Text = "我的世界BE服务器文件下载[QQ:2586850402]";
-            this.TITLE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.TITLE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TITLE_MouseDown);
+            this.Lin_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Lin_Text.ForeColor = System.Drawing.Color.White;
+            this.Lin_Text.Location = new System.Drawing.Point(24, 183);
+            this.Lin_Text.Name = "Lin_Text";
+            this.Lin_Text.Size = new System.Drawing.Size(76, 24);
+            this.Lin_Text.TabIndex = 9;
+            this.Lin_Text.Text = "Lin_BDS";
+            this.Lin_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Win_Bar
+            // 
+            this.Win_Bar.Location = new System.Drawing.Point(106, 167);
+            this.Win_Bar.Name = "Win_Bar";
+            this.Win_Bar.Size = new System.Drawing.Size(249, 11);
+            this.Win_Bar.TabIndex = 10;
+            // 
+            // Lin_Bar
+            // 
+            this.Lin_Bar.Location = new System.Drawing.Point(106, 191);
+            this.Lin_Bar.Name = "Lin_Bar";
+            this.Lin_Bar.Size = new System.Drawing.Size(249, 11);
+            this.Lin_Bar.TabIndex = 11;
             // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(400, 200);
+            this.ClientSize = new System.Drawing.Size(400, 240);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.TitleMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -210,9 +254,9 @@
             this.Load += new System.EventHandler(this.Menu_Load);
             this.TitleMenu.ResumeLayout(false);
             this.TitleMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -230,6 +274,10 @@
         private System.Windows.Forms.Button DownInformation;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label TITLE;
+        private System.Windows.Forms.ProgressBar Lin_Bar;
+        private System.Windows.Forms.ProgressBar Win_Bar;
+        private System.Windows.Forms.Label Lin_Text;
+        private System.Windows.Forms.Label Win_Text;
     }
 }
 

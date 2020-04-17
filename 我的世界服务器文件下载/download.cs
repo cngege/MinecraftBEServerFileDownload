@@ -79,9 +79,9 @@ namespace 我的世界服务器文件下载
                     FStream.Write(btContent, 0, intSize);
                     intSize = myStream.Read(btContent, 0, 512);
                 }
-                flag = true;        //返回true下载成功
+                flag = true;//返回true下载成功
             }
-            catch (Exception ex)
+            catch
             {
                 //下载文件时异常
             }
@@ -119,7 +119,7 @@ namespace 我的世界服务器文件下载
                 if (rsp.StatusCode == HttpStatusCode.OK)
                     length = rsp.ContentLength;
             }
-            catch (Exception ex)
+            catch
             {
                 //获取远程文件大小失败
             }
