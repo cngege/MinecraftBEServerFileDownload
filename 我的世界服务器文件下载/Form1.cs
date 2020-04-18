@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,6 +9,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Tools;
 using Tools.Net;
+using Tools.Data;
 
 namespace 我的世界服务器文件下载
 {
@@ -64,7 +61,7 @@ namespace 我的世界服务器文件下载
             }
             catch (Exception exp)
             {
-                MessageBox.Show("错误："+exp.ToString());
+                MessageBox.Show("错误："+exp.Message);
                 strResult = "";
             }
             return strResult;
@@ -87,12 +84,13 @@ namespace 我的世界服务器文件下载
 
         delegate void Analysis_class(String input);
 
-        public void Analysis()//获取官网信息，并分析Windows版和Linux版下载地址
+        #region 获取官网信息，并分析Windows版和Linux版下载地址 以及版本
+        public void Analysis()
         {
             int zipstartposition_win;
             int zipstartposition_linux;
-            
-            Httpdata = GetHttp(Serveraddr);
+
+            Httpdata = Download.GetHttpData(Serveraddr);
             if (Httpdata == "")
             {
                 this.BeginInvoke(new Analysis_class(TagShow),new object[] { "没有能读取到官网信息，后续操作中断" });
@@ -118,7 +116,9 @@ namespace 我的世界服务器文件下载
 
             this.BeginInvoke(new Analysis_class(TagShow), new object[] { $"Win版本：{WinVersion},Linux版本：{LinuxVersion}" });
         }
+        #endregion
 
+        #region Win服务端程序下载
         private void DownWinServer_Click(object sender, EventArgs e)
         {
             if (WinSerDownaddr == "")
@@ -128,11 +128,47 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("开始下载Windows服务端程序");
-                if (File.Exists(RunDir + $"\\WinSer{WinVersion}.zip")) 
+
+                //判断文件是否存在,及大小包是否完整,是否需要断点续传
+                try
                 {
-                    TagShow($"WinSer{WinVersion}.zip下载结束[文件存在]");
-                    return;
+                    FileInfo infoA = new FileInfo(RunDir + $"\\WinSer{WinVersion}.zip");
+                    FileInfo infoB = new FileInfo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
+                    if (infoA.Exists)
+                    {
+                        if (infoA.Length >= Download.GetHttpLength(WinSerDownaddr))
+                        {
+                            TagShow($"WinSer{WinVersion}.zip下载结束[文件存在]");
+                            return;
+                        }
+                        if (infoB.Exists)
+                        {
+                            if (infoA.Length > infoB.Length)
+                            {
+                                infoB.Delete();
+                                infoA.MoveTo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
+                            }
+                            else
+                            {
+                                infoA.Delete();
+                            }
+                        }
+                        else
+                        {
+                            infoA.MoveTo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
+                        }
+                    }
                 }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message,"发送错误");
+                }
+                
+
+
+
+
+
 
                 Download DownWinServer = new Download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip"+Tail);
                 double win_percent;
@@ -140,6 +176,7 @@ namespace 我的世界服务器文件下载
                 {
                     if (isok)
                     {
+                        this.DownWinServer.Enabled = true;
                         TagShow($"WinSer{WinVersion}.zip下载完成");
                         new FileInfo(RunDir+ $"\\WinSer{WinVersion}.zip" + Tail).MoveTo(RunDir + $"\\WinSer{WinVersion}.zip");
                     }
@@ -152,17 +189,21 @@ namespace 我的世界服务器文件下载
 
                 if (DownWinServer.Start())
                 {
+                    this.DownWinServer.Enabled = false;
                     TagShow($"WinSer{WinVersion}.zip开始下载");
                 }
                 else
                 {
+                    this.DownWinServer.Enabled = true;
                     TagShow($"WinSer{WinVersion}.zip下载失败");
                 }
                 
             }
             
         }
+        #endregion
 
+        #region Linux服务端程序下载
         private void DownLinuxServer_Click(object sender, EventArgs e)
         {
             if (LinuxSerDownaddr == "")
@@ -172,19 +213,50 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("开始下载Linux服务端程序");
-                if (File.Exists(RunDir+ $"\\LinuxSer{LinuxVersion}.zip"))
+
+                //判断文件是否存在,及大小包是否完整,是否需要断点续传
+                try
                 {
-                    TagShow($"LinuxSer{LinuxVersion}.zip下载结束[文件存在]");
-                    return;
+                    FileInfo infoA = new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip");
+                    FileInfo infoB = new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
+                    if (infoA.Exists)
+                    {
+                        if (infoA.Length >= Download.GetHttpLength(LinuxSerDownaddr))
+                        {
+                            TagShow($"LinuxSer{LinuxVersion}.zip下载结束[文件存在]");
+                            return;
+                        }
+                        if (infoB.Exists)
+                        {
+                            if (infoA.Length > infoB.Length)
+                            {
+                                infoB.Delete();
+                                infoA.MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
+                            }
+                            else
+                            {
+                                infoA.Delete();
+                            }
+                        }
+                        else
+                        {
+                            infoA.MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
+                        }
+                    }
+                }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message, "发送错误");
                 }
 
+                //开始实例化下载
                 Download DownLinuxServer = new Download(LinuxSerDownaddr,RunDir,$"LinuxSer{LinuxVersion}.zip" + Tail);
-
                 double lin_percent;
                 DownLinuxServer.Downprogress += (long filesize, long httpsize, bool isok) =>
                 {
                     if (isok)
                     {
+                        this.DownLinuxServer.Enabled = true;
                         TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
                         new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail).MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip");
                     }
@@ -197,15 +269,18 @@ namespace 我的世界服务器文件下载
 
                 if (DownLinuxServer.Start())
                 {
+                    this.DownLinuxServer.Enabled = false;
                     TagShow($"LinuxSer{LinuxVersion}.zip开始下载");
                 }
                 else
                 {
+                    this.DownLinuxServer.Enabled = true;
                     TagShow($"LinuxSer{LinuxVersion}.zip下载失败");
                 }
 
             }
         }
+        #endregion
 
         private void info_copyright_Click(object sender, EventArgs e)
         {
@@ -216,7 +291,7 @@ namespace 我的世界服务器文件下载
         {
             if (WinSerDownaddr != "")
             {
-                Clipboard.SetDataObject(WinSerDownaddr);
+                Data.CopyData(WinSerDownaddr);
                 TagShow("已复制");
             }
             else
@@ -229,7 +304,7 @@ namespace 我的世界服务器文件下载
         {
             if (LinuxSerDownaddr != "")
             {
-                Clipboard.SetDataObject(LinuxSerDownaddr);
+                Data.CopyData(LinuxSerDownaddr);
                 TagShow("已复制");
             }
             else
@@ -243,25 +318,16 @@ namespace 我的世界服务器文件下载
             Application.Exit();
         }
 
-        [DllImport("user32.Dll", EntryPoint = "ReleaseCapture")]
-        public extern static void ReleaseCapture();
-
-        [DllImport("user32.Dll", EntryPoint = "SendMessage")]
-        public extern static void SendMessage(System.IntPtr hWnd , int wMsg , int wParam , int lParam);
 
 
         // 用于移动窗口
         private void TitleMenu_MouseDown(object sender, MouseEventArgs e)
         {
-            ReleaseCapture();
-            SendMessage(this.Handle,0x112,0xf012,0);
+            Tools.Formoperate.WinForms.MoveFrom(this.Handle);
         }
-
-
         private void TITLE_MouseDown(object sender, MouseEventArgs e)
         {
-            ReleaseCapture();
-            SendMessage(this.Handle, 0x112, 0xf012, 0);
+            Tools.Formoperate.WinForms.MoveFrom(this.Handle);
         }
     }
 }
