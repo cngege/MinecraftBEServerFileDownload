@@ -4,6 +4,8 @@
 用于下载解析下载Minecraft BE Windows和Linux平台的服务端
 解析成功后会显示当前最新版的版本号。
 
+引用工具集:Tools.DLL 开源项目请参考:https://github.com/cngege/Tools
+
 采用C#编程语言开发，使用VS2019制作，项目中包含成品
 
 我的腾讯QQ：2586850402
