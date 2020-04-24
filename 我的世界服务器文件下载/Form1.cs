@@ -16,7 +16,6 @@ namespace 我的世界服务器文件下载
     public partial class Menu : Form
     {
         public String RunDir = Directory.GetCurrentDirectory();
-        public String Tail = ".MCBDS";
 
         public String Serveraddr = "https://www.minecraft.net/zh-hans/download/server/bedrock/";
         public String Httpdata = "";
@@ -129,75 +128,37 @@ namespace 我的世界服务器文件下载
             {
                 TagShow("开始下载Windows服务端程序");
 
-                //判断文件是否存在,及大小包是否完整,是否需要断点续传
-                try
-                {
-                    FileInfo infoA = new FileInfo(RunDir + $"\\WinSer{WinVersion}.zip");
-                    FileInfo infoB = new FileInfo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
-                    if (infoA.Exists)
-                    {
-                        if (infoA.Length >= Download.GetHttpLength(WinSerDownaddr))
-                        {
-                            TagShow($"WinSer{WinVersion}.zip下载结束[文件存在]");
-                            return;
-                        }
-                        if (infoB.Exists)
-                        {
-                            if (infoA.Length > infoB.Length)
-                            {
-                                infoB.Delete();
-                                infoA.MoveTo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
-                            }
-                            else
-                            {
-                                infoA.Delete();
-                            }
-                        }
-                        else
-                        {
-                            infoA.MoveTo(RunDir + $"\\WinSer{WinVersion}.zip" + Tail);
-                        }
-                    }
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show(err.Message,"发送错误");
-                }
                 
+                Download DownWinServer = new Download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip");
+                DownWinServer.Suffix = ".MCBDS";    //定义下载的缓存文件后缀
 
-
-
-
-
-
-                Download DownWinServer = new Download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip"+Tail);
-                double win_percent;
-                DownWinServer.Downprogress += (long filesize, long httpsize, bool isok) =>
+                int win_percent;
+                DownWinServer.Downprogress += (long filesize, long httpsize, bool isok) =>  //下载回调函数
                 {
-                    if (isok)
+                    if (isok)   //回调函数中指示下载完成
                     {
                         this.DownWinServer.Enabled = true;
                         TagShow($"WinSer{WinVersion}.zip下载完成");
-                        new FileInfo(RunDir+ $"\\WinSer{WinVersion}.zip" + Tail).MoveTo(RunDir + $"\\WinSer{WinVersion}.zip");
                     }
-
                     win_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
-                    if ((int)win_percent <= 100) Win_Bar.Value = (int)win_percent;
-
-
+                    if (win_percent <= 100) Win_Bar.Value = win_percent;
                 };
 
-                if (DownWinServer.Start())
+                switch (DownWinServer.Start())
                 {
-                    this.DownWinServer.Enabled = false;
-                    TagShow($"WinSer{WinVersion}.zip开始下载");
+                    case 0:
+                        this.DownWinServer.Enabled = true;
+                        TagShow($"WinSer{WinVersion}.zip下载失败");
+                        break;
+                    case 1:
+                        this.DownWinServer.Enabled = false;
+                        TagShow($"WinSer{WinVersion}.zip开始下载");
+                        break;
+                    case 2:
+                        this.DownWinServer.Enabled = true;
+                        TagShow($"WinSer{WinVersion}.zip下载完成");
+                        break;
                 }
-                else
-                {
-                    this.DownWinServer.Enabled = true;
-                    TagShow($"WinSer{WinVersion}.zip下载失败");
-                }
-                
             }
             
         }
@@ -213,69 +174,36 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("开始下载Linux服务端程序");
-
-                //判断文件是否存在,及大小包是否完整,是否需要断点续传
-                try
-                {
-                    FileInfo infoA = new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip");
-                    FileInfo infoB = new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
-                    if (infoA.Exists)
-                    {
-                        if (infoA.Length >= Download.GetHttpLength(LinuxSerDownaddr))
-                        {
-                            TagShow($"LinuxSer{LinuxVersion}.zip下载结束[文件存在]");
-                            return;
-                        }
-                        if (infoB.Exists)
-                        {
-                            if (infoA.Length > infoB.Length)
-                            {
-                                infoB.Delete();
-                                infoA.MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
-                            }
-                            else
-                            {
-                                infoA.Delete();
-                            }
-                        }
-                        else
-                        {
-                            infoA.MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail);
-                        }
-                    }
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show(err.Message, "发送错误");
-                }
-
                 //开始实例化下载
-                Download DownLinuxServer = new Download(LinuxSerDownaddr,RunDir,$"LinuxSer{LinuxVersion}.zip" + Tail);
-                double lin_percent;
+                Download DownLinuxServer = new Download(LinuxSerDownaddr,RunDir,$"LinuxSer{LinuxVersion}.zip");
+                DownLinuxServer.Suffix = ".MCBDS";
+                int lin_percent;
                 DownLinuxServer.Downprogress += (long filesize, long httpsize, bool isok) =>
                 {
                     if (isok)
                     {
                         this.DownLinuxServer.Enabled = true;
                         TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
-                        new FileInfo(RunDir + $"\\LinuxSer{LinuxVersion}.zip" + Tail).MoveTo(RunDir + $"\\LinuxSer{LinuxVersion}.zip");
                     }
 
                     lin_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
-                    if ((int)lin_percent <= 100) Lin_Bar.Value = (int)lin_percent;
-
-
+                    if (lin_percent <= 100) Lin_Bar.Value = lin_percent;
                 };
 
-                if (DownLinuxServer.Start())
+                switch (DownLinuxServer.Start())
                 {
-                    this.DownLinuxServer.Enabled = false;
-                    TagShow($"LinuxSer{LinuxVersion}.zip开始下载");
-                }
-                else
-                {
-                    this.DownLinuxServer.Enabled = true;
-                    TagShow($"LinuxSer{LinuxVersion}.zip下载失败");
+                    case 0:
+                        this.DownLinuxServer.Enabled = true;
+                        TagShow($"LinuxSer{LinuxVersion}.zip下载失败");
+                        break;
+                    case 1:
+                        this.DownLinuxServer.Enabled = false;
+                        TagShow($"LinuxSer{LinuxVersion}.zip开始下载");
+                        break;
+                    case 2:
+                        this.DownLinuxServer.Enabled = true;
+                        TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
+                        break;
                 }
 
             }
