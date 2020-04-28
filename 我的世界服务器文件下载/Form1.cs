@@ -245,7 +245,10 @@ namespace 我的世界服务器文件下载
         {
             Application.Exit();
         }
-
+        private void min_btn_Click(object sender, EventArgs e)
+        {
+            Tools.Formoperate.WinForms.FormMessage((IntPtr)this.Handle,1);
+        }
 
 
         // 用于移动窗口
@@ -257,5 +260,7 @@ namespace 我的世界服务器文件下载
         {
             Tools.Formoperate.WinForms.MoveFrom(this.Handle);
         }
+
+
     }
 }

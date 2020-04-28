@@ -74,6 +74,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
@@ -105,6 +106,7 @@
     <Content Include="obj\Debug\我的世界服务器文件下载.pdb" />
     <Content Include="obj\Debug\我的世界服务器文件下载[C#版].exe" />
     <Content Include="Resources\Minecraft.ico" />
+    <None Include="Resources\缩小.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />

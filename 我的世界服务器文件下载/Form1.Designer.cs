@@ -33,6 +33,10 @@
             this.TITLE = new System.Windows.Forms.Label();
             this.Exitbtn = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.Lin_Bar = new System.Windows.Forms.ProgressBar();
+            this.Win_Bar = new System.Windows.Forms.ProgressBar();
+            this.Lin_Text = new System.Windows.Forms.Label();
+            this.Win_Text = new System.Windows.Forms.Label();
             this.info_copyright = new System.Windows.Forms.Button();
             this.CopyLinuxAddr = new System.Windows.Forms.Button();
             this.CopyWinAddr = new System.Windows.Forms.Button();
@@ -40,18 +44,17 @@
             this.DownWinServer = new System.Windows.Forms.Button();
             this.DownInformation = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.Win_Text = new System.Windows.Forms.Label();
-            this.Lin_Text = new System.Windows.Forms.Label();
-            this.Win_Bar = new System.Windows.Forms.ProgressBar();
-            this.Lin_Bar = new System.Windows.Forms.ProgressBar();
+            this.min_btn = new System.Windows.Forms.PictureBox();
             this.TitleMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.min_btn)).BeginInit();
             this.SuspendLayout();
             // 
             // TitleMenu
             // 
             this.TitleMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(50)))));
+            this.TitleMenu.Controls.Add(this.min_btn);
             this.TitleMenu.Controls.Add(this.TITLE);
             this.TitleMenu.Controls.Add(this.Exitbtn);
             this.TitleMenu.Dock = System.Windows.Forms.DockStyle.Top;
@@ -106,6 +109,42 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(400, 216);
             this.panel2.TabIndex = 8;
+            // 
+            // Lin_Bar
+            // 
+            this.Lin_Bar.Location = new System.Drawing.Point(106, 191);
+            this.Lin_Bar.Name = "Lin_Bar";
+            this.Lin_Bar.Size = new System.Drawing.Size(249, 11);
+            this.Lin_Bar.TabIndex = 11;
+            // 
+            // Win_Bar
+            // 
+            this.Win_Bar.Location = new System.Drawing.Point(106, 167);
+            this.Win_Bar.Name = "Win_Bar";
+            this.Win_Bar.Size = new System.Drawing.Size(249, 11);
+            this.Win_Bar.TabIndex = 10;
+            // 
+            // Lin_Text
+            // 
+            this.Lin_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Lin_Text.ForeColor = System.Drawing.Color.White;
+            this.Lin_Text.Location = new System.Drawing.Point(24, 183);
+            this.Lin_Text.Name = "Lin_Text";
+            this.Lin_Text.Size = new System.Drawing.Size(76, 24);
+            this.Lin_Text.TabIndex = 9;
+            this.Lin_Text.Text = "Lin_BDS";
+            this.Lin_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Win_Text
+            // 
+            this.Win_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Win_Text.ForeColor = System.Drawing.Color.White;
+            this.Win_Text.Location = new System.Drawing.Point(24, 159);
+            this.Win_Text.Name = "Win_Text";
+            this.Win_Text.Size = new System.Drawing.Size(76, 24);
+            this.Win_Text.TabIndex = 8;
+            this.Win_Text.Text = "Win_BDS";
+            this.Win_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // info_copyright
             // 
@@ -202,41 +241,18 @@
             this.label1.Text = "我的世界PE国际版服务器文件下载[当前位置]";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Win_Text
+            // min_btn
             // 
-            this.Win_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Win_Text.ForeColor = System.Drawing.Color.White;
-            this.Win_Text.Location = new System.Drawing.Point(24, 159);
-            this.Win_Text.Name = "Win_Text";
-            this.Win_Text.Size = new System.Drawing.Size(76, 24);
-            this.Win_Text.TabIndex = 8;
-            this.Win_Text.Text = "Win_BDS";
-            this.Win_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Lin_Text
-            // 
-            this.Lin_Text.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Lin_Text.ForeColor = System.Drawing.Color.White;
-            this.Lin_Text.Location = new System.Drawing.Point(24, 183);
-            this.Lin_Text.Name = "Lin_Text";
-            this.Lin_Text.Size = new System.Drawing.Size(76, 24);
-            this.Lin_Text.TabIndex = 9;
-            this.Lin_Text.Text = "Lin_BDS";
-            this.Lin_Text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Win_Bar
-            // 
-            this.Win_Bar.Location = new System.Drawing.Point(106, 167);
-            this.Win_Bar.Name = "Win_Bar";
-            this.Win_Bar.Size = new System.Drawing.Size(249, 11);
-            this.Win_Bar.TabIndex = 10;
-            // 
-            // Lin_Bar
-            // 
-            this.Lin_Bar.Location = new System.Drawing.Point(106, 191);
-            this.Lin_Bar.Name = "Lin_Bar";
-            this.Lin_Bar.Size = new System.Drawing.Size(249, 11);
-            this.Lin_Bar.TabIndex = 11;
+            this.min_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.min_btn.Image = global::我的世界服务器文件下载.Properties.Resources.缩小;
+            this.min_btn.Location = new System.Drawing.Point(332, 0);
+            this.min_btn.Name = "min_btn";
+            this.min_btn.Size = new System.Drawing.Size(25, 24);
+            this.min_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.min_btn.TabIndex = 2;
+            this.min_btn.TabStop = false;
+            this.min_btn.Tag = "";
+            this.min_btn.Click += new System.EventHandler(this.min_btn_Click);
             // 
             // Menu
             // 
@@ -257,6 +273,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.min_btn)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -278,6 +295,7 @@
         private System.Windows.Forms.ProgressBar Win_Bar;
         private System.Windows.Forms.Label Lin_Text;
         private System.Windows.Forms.Label Win_Text;
+        private System.Windows.Forms.PictureBox min_btn;
     }
 }
 
