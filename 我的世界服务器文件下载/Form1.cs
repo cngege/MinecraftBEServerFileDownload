@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Tools;
 using Tools.Net;
 using Tools.Data;
+using Tools.Fileoperate;
 
 namespace 我的世界服务器文件下载
 {
@@ -33,10 +34,21 @@ namespace 我的世界服务器文件下载
         public int LinuxaddrLong = 0;
         public String LinuxVersion = "";
 
+        public InIFile savedata;
+        public String SaveParh;
         public Menu()
         {
             InitializeComponent();
         }
+
+        private void Menu_Load(object sender, EventArgs e)
+        {
+            CheckForIllegalCrossThreadCalls = false;    //允许线程操作UI
+            savedata = new InIFile(RunDir + "\\MSDL.ini");
+            SaveParh = savedata.Read("SavePath","key", RunDir);
+            
+        }
+
 
         public String GetHttp(string Url)
         {
@@ -69,10 +81,6 @@ namespace 我的世界服务器文件下载
         public void TagShow(String text)
         {
             label1.Text = text;
-        }
-        private void Menu_Load(object sender, EventArgs e)
-        {
-            CheckForIllegalCrossThreadCalls = false;    //允许线程操作UI
         }
 
         private void DownInformation_Click(object sender, EventArgs e)
@@ -129,7 +137,7 @@ namespace 我的世界服务器文件下载
                 TagShow("开始下载Windows服务端程序");
 
                 
-                Download DownWinServer = new Download(WinSerDownaddr,RunDir,$"WinSer{WinVersion}.zip");
+                Download DownWinServer = new Download(WinSerDownaddr, SaveParh, $"WinSer{WinVersion}.zip");
                 DownWinServer.Suffix = ".MCBDS";    //定义下载的缓存文件后缀
 
                 int win_percent;
@@ -175,7 +183,7 @@ namespace 我的世界服务器文件下载
             {
                 TagShow("开始下载Linux服务端程序");
                 //开始实例化下载
-                Download DownLinuxServer = new Download(LinuxSerDownaddr,RunDir,$"LinuxSer{LinuxVersion}.zip");
+                Download DownLinuxServer = new Download(LinuxSerDownaddr, SaveParh, $"LinuxSer{LinuxVersion}.zip");
                 DownLinuxServer.Suffix = ".MCBDS";
                 int lin_percent;
                 DownLinuxServer.Downprogress += (long filesize, long httpsize, bool isok) =>
@@ -261,6 +269,11 @@ namespace 我的世界服务器文件下载
             Tools.Formoperate.WinForms.MoveFrom(this.Handle);
         }
 
-
+        private void setup_Click(object sender, EventArgs e)
+        {
+            Formsetup Setup = new Formsetup();
+            Setup.MainForm = this;
+            Setup.ShowDialog();
+        }
     }
 }
