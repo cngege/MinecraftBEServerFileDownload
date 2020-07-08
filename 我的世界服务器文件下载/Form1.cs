@@ -49,35 +49,6 @@ namespace 我的世界服务器文件下载
             
         }
 
-
-        public String GetHttp(string Url)
-        {
-            string strResult = "";
-            try
-            {
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-                //声明一个HttpWebRequest请求
-                request.Timeout = 3000000;
-                //设置连接超时时间
-                request.Headers.Set("Pragma", "no-cache");
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                if (response.ToString() != "")
-                {
-                    Stream streamReceive = response.GetResponseStream();
-                    Encoding encoding = Encoding.GetEncoding("UTF-8");
-                    StreamReader streamReader = new StreamReader(streamReceive, encoding);
-                    strResult = streamReader.ReadToEnd();
-                }
-            }
-            catch (Exception exp)
-            {
-                MessageBox.Show("错误："+exp.Message);
-                strResult = "";
-            }
-            return strResult;
-        }
-
         public void TagShow(String text)
         {
             label1.Text = text;

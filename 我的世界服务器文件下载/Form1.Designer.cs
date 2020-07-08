@@ -30,7 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.TitleMenu = new System.Windows.Forms.Panel();
+            this.setup = new System.Windows.Forms.PictureBox();
+            this.min_btn = new System.Windows.Forms.PictureBox();
             this.TITLE = new System.Windows.Forms.Label();
+            this.Exitbtn = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.Lin_Bar = new System.Windows.Forms.ProgressBar();
             this.Win_Bar = new System.Windows.Forms.ProgressBar();
@@ -43,14 +46,11 @@
             this.DownWinServer = new System.Windows.Forms.Button();
             this.DownInformation = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.setup = new System.Windows.Forms.PictureBox();
-            this.min_btn = new System.Windows.Forms.PictureBox();
-            this.Exitbtn = new System.Windows.Forms.PictureBox();
             this.TitleMenu.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_btn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitleMenu
@@ -67,6 +67,32 @@
             this.TitleMenu.TabIndex = 7;
             this.TitleMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleMenu_MouseDown);
             // 
+            // setup
+            // 
+            this.setup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.setup.Image = global::我的世界服务器文件下载.Properties.Resources.设置;
+            this.setup.Location = new System.Drawing.Point(299, 0);
+            this.setup.Name = "setup";
+            this.setup.Size = new System.Drawing.Size(25, 24);
+            this.setup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.setup.TabIndex = 3;
+            this.setup.TabStop = false;
+            this.setup.Tag = "";
+            this.setup.Click += new System.EventHandler(this.setup_Click);
+            // 
+            // min_btn
+            // 
+            this.min_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.min_btn.Image = global::我的世界服务器文件下载.Properties.Resources.缩小;
+            this.min_btn.Location = new System.Drawing.Point(332, 0);
+            this.min_btn.Name = "min_btn";
+            this.min_btn.Size = new System.Drawing.Size(25, 24);
+            this.min_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.min_btn.TabIndex = 2;
+            this.min_btn.TabStop = false;
+            this.min_btn.Tag = "";
+            this.min_btn.Click += new System.EventHandler(this.min_btn_Click);
+            // 
             // TITLE
             // 
             this.TITLE.AutoSize = true;
@@ -79,6 +105,19 @@
             this.TITLE.Text = "我的世界BE服务器文件下载\r\n";
             this.TITLE.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.TITLE.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TITLE_MouseDown);
+            // 
+            // Exitbtn
+            // 
+            this.Exitbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.Exitbtn.Image = ((System.Drawing.Image)(resources.GetObject("Exitbtn.Image")));
+            this.Exitbtn.Location = new System.Drawing.Point(363, 0);
+            this.Exitbtn.Name = "Exitbtn";
+            this.Exitbtn.Size = new System.Drawing.Size(25, 24);
+            this.Exitbtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.Exitbtn.TabIndex = 0;
+            this.Exitbtn.TabStop = false;
+            this.Exitbtn.Tag = "";
+            this.Exitbtn.Click += new System.EventHandler(this.Exitbtn_Click);
             // 
             // panel2
             // 
@@ -209,6 +248,7 @@
             // DownInformation
             // 
             this.DownInformation.AutoSize = true;
+            this.DownInformation.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.DownInformation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.DownInformation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DownInformation.ForeColor = System.Drawing.Color.White;
@@ -231,45 +271,6 @@
             this.label1.Text = "我的世界PE国际版服务器文件下载[默认当前位置]";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // setup
-            // 
-            this.setup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.setup.Image = global::我的世界服务器文件下载.Properties.Resources.设置;
-            this.setup.Location = new System.Drawing.Point(299, 0);
-            this.setup.Name = "setup";
-            this.setup.Size = new System.Drawing.Size(25, 24);
-            this.setup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.setup.TabIndex = 3;
-            this.setup.TabStop = false;
-            this.setup.Tag = "";
-            this.setup.Click += new System.EventHandler(this.setup_Click);
-            // 
-            // min_btn
-            // 
-            this.min_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.min_btn.Image = global::我的世界服务器文件下载.Properties.Resources.缩小;
-            this.min_btn.Location = new System.Drawing.Point(332, 0);
-            this.min_btn.Name = "min_btn";
-            this.min_btn.Size = new System.Drawing.Size(25, 24);
-            this.min_btn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.min_btn.TabIndex = 2;
-            this.min_btn.TabStop = false;
-            this.min_btn.Tag = "";
-            this.min_btn.Click += new System.EventHandler(this.min_btn_Click);
-            // 
-            // Exitbtn
-            // 
-            this.Exitbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Exitbtn.Image = ((System.Drawing.Image)(resources.GetObject("Exitbtn.Image")));
-            this.Exitbtn.Location = new System.Drawing.Point(363, 0);
-            this.Exitbtn.Name = "Exitbtn";
-            this.Exitbtn.Size = new System.Drawing.Size(25, 24);
-            this.Exitbtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.Exitbtn.TabIndex = 0;
-            this.Exitbtn.TabStop = false;
-            this.Exitbtn.Tag = "";
-            this.Exitbtn.Click += new System.EventHandler(this.Exitbtn_Click);
-            // 
             // Menu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -286,11 +287,11 @@
             this.Load += new System.EventHandler(this.Menu_Load);
             this.TitleMenu.ResumeLayout(false);
             this.TitleMenu.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.min_btn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Exitbtn)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
