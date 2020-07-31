@@ -18,7 +18,7 @@ namespace 我的世界服务器文件下载
     {
         public String RunDir = Directory.GetCurrentDirectory();
 
-        public String Serveraddr = "https://www.minecraft.net/zh-hans/download/server/bedrock/";
+        public String Serveraddr = "https://www.minecraft.net/en-us/download/server/bedrock/";
         public String Httpdata = "";
         public String PilterA = "https://minecraft.azureedge.net/bin-win/bedrock-server-";
         public String PilterB = ".zip";
@@ -77,22 +77,29 @@ namespace 我的世界服务器文件下载
 
             //TagShow("寻找Windows下载地址特征开始位置");
             Winstartposition = Httpdata.IndexOf(PilterA);
-            //TagShow("寻找Windows下载地址特征结束位置");
-            zipstartposition_win = Httpdata.IndexOf(PilterB, Winstartposition);
-            //TagShow("过滤出Windows服务器最新版本");
-            WinVersion = Httpdata.Substring(Winstartposition + PilterA.Length, zipstartposition_win - Winstartposition - PilterA.Length);
-            //TagShow("计算Windows下载地址长度");
-            WinaddrLong = zipstartposition_win + PilterB.Length - Winstartposition;
-            //TagShow("找出Windows下载地址");
-            WinSerDownaddr = Httpdata.Substring(Winstartposition, WinaddrLong);
+            if (Winstartposition > -1)
+            {
+                //TagShow("寻找Windows下载地址特征结束位置");
+                zipstartposition_win = Httpdata.IndexOf(PilterB, Winstartposition);
+                //TagShow("过滤出Windows服务器最新版本");
+                WinVersion = Httpdata.Substring(Winstartposition + PilterA.Length, zipstartposition_win - Winstartposition - PilterA.Length);
+                //TagShow("计算Windows下载地址长度");
+                WinaddrLong = zipstartposition_win + PilterB.Length - Winstartposition;
+                //TagShow("找出Windows下载地址");
+                WinSerDownaddr = Httpdata.Substring(Winstartposition, WinaddrLong);
 
-            Linuxstartposition = Httpdata.IndexOf(PilterC);
-            zipstartposition_linux = Httpdata.IndexOf(PilterB, Linuxstartposition);
-            LinuxVersion = Httpdata.Substring(Linuxstartposition + PilterC.Length, zipstartposition_linux - Linuxstartposition - PilterC.Length);
-            LinuxaddrLong = zipstartposition_linux + PilterB.Length - Linuxstartposition;
-            LinuxSerDownaddr = Httpdata.Substring(Linuxstartposition, LinuxaddrLong);
+                Linuxstartposition = Httpdata.IndexOf(PilterC);
+                zipstartposition_linux = Httpdata.IndexOf(PilterB, Linuxstartposition);
+                LinuxVersion = Httpdata.Substring(Linuxstartposition + PilterC.Length, zipstartposition_linux - Linuxstartposition - PilterC.Length);
+                LinuxaddrLong = zipstartposition_linux + PilterB.Length - Linuxstartposition;
+                LinuxSerDownaddr = Httpdata.Substring(Linuxstartposition, LinuxaddrLong);
 
-            this.BeginInvoke(new Analysis_class(TagShow), new object[] { $"Win版本：{WinVersion},Linux版本：{LinuxVersion}" });
+                this.BeginInvoke(new Analysis_class(TagShow), new object[] { $"Win版本：{WinVersion},Linux版本：{LinuxVersion}" });
+            }
+            else
+            {
+                TagShow("可能官网出现问题,没有找到标识,请等待更新");
+            }
         }
         #endregion
 
