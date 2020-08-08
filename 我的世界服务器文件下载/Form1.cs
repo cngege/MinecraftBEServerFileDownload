@@ -17,7 +17,7 @@ namespace 我的世界服务器文件下载
     public partial class Menu : Form
     {
         public String RunDir = Directory.GetCurrentDirectory();
-        public String GitHub = "https://github.com/cngege/MinecraftBEServerFileDownload";
+        public String GitHub = "https://github.com/cngege/MinecraftBEServerFileDownload.git";
 
         public String Serveraddr = "https://www.minecraft.net/en-us/download/server/bedrock/";
         public String Httpdata = "";
