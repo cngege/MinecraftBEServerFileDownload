@@ -17,6 +17,7 @@ namespace 我的世界服务器文件下载
     public partial class Menu : Form
     {
         public String RunDir = Directory.GetCurrentDirectory();
+        public String GitHub = "https://github.com/cngege/MinecraftBEServerFileDownload";
 
         public String Serveraddr = "https://www.minecraft.net/en-us/download/server/bedrock/";
         public String Httpdata = "";
@@ -198,7 +199,16 @@ namespace 我的世界服务器文件下载
 
         private void info_copyright_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("C#开发,GitHub开源\n我的世界BE服务端文件下载器\n可转载至非商业用途\n作者：貔貅I勿念\n联系QQ：2586850402","AppInfo");
+            DialogResult Result = MessageBox.Show("C#开发,GitHub开源\n" + 
+                                                  "我的世界BE服务端文件下载器\n" + 
+                                                  "可转载至非商业用途\n" + 
+                                                  "作者：貔貅I勿念\n" + 
+                                                  "联系QQ：2586850402"
+                                                  , "AppInfo 按下‘确定’键打开开源项目", MessageBoxButtons.OKCancel);
+            if (Result == DialogResult.OK)
+            {
+                System.Diagnostics.Process.Start(GitHub);
+            }
         }
 
         private void CopyWinAddr_Click(object sender, EventArgs e)
