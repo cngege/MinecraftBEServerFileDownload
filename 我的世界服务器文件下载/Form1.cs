@@ -263,5 +263,10 @@ namespace 我的世界服务器文件下载
             Setup.MainForm = this;
             Setup.ShowDialog();
         }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
