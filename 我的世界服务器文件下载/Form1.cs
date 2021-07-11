@@ -69,7 +69,7 @@ namespace 我的世界服务器文件下载
             int zipstartposition_win;
             int zipstartposition_linux;
 
-            Httpdata = Download.GetHttpData(Serveraddr);
+            Httpdata = GetHttpData(Serveraddr);
             if (Httpdata == "")
             {
                 this.BeginInvoke(new Analysis_class(TagShow),new object[] { "没有能读取到官网信息，后续操作中断" });
@@ -262,6 +262,37 @@ namespace 我的世界服务器文件下载
             Formsetup Setup = new Formsetup();
             Setup.MainForm = this;
             Setup.ShowDialog();
+        }
+
+
+        public String GetHttpData(string Url, String Referer = null)
+        {
+            string strResult = "";
+            try
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+                //声明一个HttpWebRequest请求
+                request.Timeout = 30 * 1000;  //设置连接超时时间
+                request.Accept = "1";
+                request.Headers.Set("Cookie", "ApplicationGatewayAffinityCORS=e337984430aa659b4552fffcc3e6962e; HttpOnly");
+                if (Referer != null) request.Referer = Referer; //设置请求来源
+                request.Method = "GET";
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                if (response.ToString() != "")
+                {
+                    Stream streamReceive = response.GetResponseStream();
+                    Encoding encoding = Encoding.GetEncoding("UTF-8");
+                    StreamReader streamReader = new StreamReader(streamReceive, encoding);
+                    strResult = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            
+            return strResult;
         }
     }
 }
