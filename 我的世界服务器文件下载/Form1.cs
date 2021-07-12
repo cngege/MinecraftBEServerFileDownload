@@ -265,7 +265,7 @@ namespace 我的世界服务器文件下载
         }
 
 
-        public String GetHttpData(string Url, String Referer = null)
+        public String GetHttpData(string Url)
         {
             string strResult = "";
             try
@@ -273,11 +273,21 @@ namespace 我的世界服务器文件下载
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
                 //声明一个HttpWebRequest请求
-                request.Timeout = 30 * 1000;  //设置连接超时时间
-                request.Accept = "1";
-                request.Headers.Set("Cookie", "ApplicationGatewayAffinityCORS=e337984430aa659b4552fffcc3e6962e; HttpOnly");
-                if (Referer != null) request.Referer = Referer; //设置请求来源
+                request.Timeout = 10 * 1000;  //设置连接超时时间
+                request.Host = "www.minecraft.net";
+                request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+                //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0";
+
+                request.Headers.Set("Cache-Control", "no-cache");
+                request.Headers.Set("Upgrade-Insecure-Requests", "1");
+                request.Headers.Set("Pragma", "no-cache");
+                //request.Headers.Set("Accept-Encoding", "gzip, deflate, br");
+                request.Headers.Set("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2");
+                request.Headers.Set("Cookie", "ApplicationGatewayAffinityCORS=1bfc026d9c4b7d17a636076dd33a8622");
                 request.Method = "GET";
+                request.KeepAlive = true;
+                request.Referer = Url;
+                
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 if (response.ToString() != "")
                 {
@@ -291,7 +301,7 @@ namespace 我的世界服务器文件下载
             {
                 MessageBox.Show(e.ToString());
             }
-            
+            //MessageBox.Show(strResult);
             return strResult;
         }
     }
