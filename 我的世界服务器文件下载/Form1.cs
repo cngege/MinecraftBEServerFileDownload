@@ -100,6 +100,7 @@ namespace 我的世界服务器文件下载
             else
             {
                 TagShow("可能官网出现问题,没有找到标识,请等待更新");
+                File.WriteAllText(String.Format(@"C:\Users\{0}\Desktop\Error.log.txt", Environment.GetEnvironmentVariable("UserName").ToString()), Httpdata);
             }
         }
         #endregion
