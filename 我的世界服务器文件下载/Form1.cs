@@ -21,9 +21,9 @@ namespace 我的世界服务器文件下载
 
         public String Serveraddr = "https://www.minecraft.net/en-us/download/server/bedrock/";
         public String Httpdata = "";
-        public String PilterA = "https://minecraft.azureedge.net/bin-win/bedrock-server-";
+        public String PilterA = "https://www.minecraft.net/bedrockdedicatedserver/bin-win/bedrock-server-";
         public String PilterB = ".zip";
-        public String PilterC = "https://minecraft.azureedge.net/bin-linux/bedrock-server-";
+        public String PilterC = "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-";
 
         public String WinSerDownaddr = "";
         public int Winstartposition = 0;
@@ -99,7 +99,7 @@ namespace 我的世界服务器文件下载
             }
             else
             {
-                TagShow("可能官网出现问题,没有找到标识,请等待更新");
+                TagShow("可能官网出现问题,没有找到标识,请等待更新, desktop::Error.log.txt");
                 File.WriteAllText(String.Format(@"C:\Users\{0}\Desktop\Error.log.txt", Environment.GetEnvironmentVariable("UserName").ToString()), Httpdata);
             }
         }
