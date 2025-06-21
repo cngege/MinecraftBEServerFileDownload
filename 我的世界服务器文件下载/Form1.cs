@@ -19,6 +19,8 @@ namespace 我的世界服务器文件下载
         public String RunDir = Directory.GetCurrentDirectory();
         public String GitHub = "https://github.com/cngege/MinecraftBEServerFileDownload.git";
 
+        public string API = "https://net-secondary.web.minecraft-services.net/api/v1.0/download/links";
+
         public String Serveraddr = "https://www.minecraft.net/en-us/download/server/bedrock/";
         public String Httpdata = "";
         public String PilterA = "https://www.minecraft.net/bedrockdedicatedserver/bin-win/bedrock-server-";
@@ -26,17 +28,15 @@ namespace 我的世界服务器文件下载
         public String PilterC = "https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-";
 
         public String WinSerDownaddr = "";
-        public int Winstartposition = 0;
-        public int WinaddrLong = 0;
+        public String WinSaveFilename = "";
         public String WinVersion = "";
 
         public String LinuxSerDownaddr = "";
-        public int Linuxstartposition = 0;
-        public int LinuxaddrLong = 0;
+        public String LinuxSaveFilename = "";
         public String LinuxVersion = "";
 
         public InIFile savedata;
-        public String SaveParh;
+        public String SavePath;
         public Menu()
         {
             InitializeComponent();
@@ -46,7 +46,7 @@ namespace 我的世界服务器文件下载
         {
             CheckForIllegalCrossThreadCalls = false;    //允许线程操作UI
             savedata = new InIFile(RunDir + "\\MSDL.ini");
-            SaveParh = savedata.Read("SavePath","key", RunDir);
+            SavePath = savedata.Read("SavePath","key", RunDir);
             
         }
 
@@ -66,39 +66,53 @@ namespace 我的世界服务器文件下载
         #region 获取官网信息，并分析Windows版和Linux版下载地址 以及版本
         public void Analysis()
         {
-            int zipstartposition_win;
-            int zipstartposition_linux;
 
-            Httpdata = GetHttpData(Serveraddr);
+            Httpdata = GetHttpData(API);
             if (Httpdata == "")
             {
                 this.BeginInvoke(new Analysis_class(TagShow),new object[] { "没有能读取到官网信息，后续操作中断" });
                 return;
             }
+            try {
+                var data = JSON.parse(Httpdata);
+                if(data != null) {
+                    foreach(var item in data["result"]["links"]) {
+                        if (item["downloadType"] == "serverBedrockWindows") {
+                            WinSerDownaddr = item["downloadUrl"];
+                            int 最后一个左斜杠位置 = WinSerDownaddr.LastIndexOf("/");
+                            WinSaveFilename = WinSerDownaddr.Substring(最后一个左斜杠位置 + 1);
+                            int 版本号开始位置 = 最后一个左斜杠位置 + 1 + "bedrock-server-".Length;
+                            WinVersion = WinSerDownaddr.Substring(版本号开始位置, WinSerDownaddr.LastIndexOf(".zip") - 版本号开始位置);
+
+                            DownWinServer.Enabled = true;
+                            CopyWinAddr.Enabled = true;
+                        }
+                        else if (item["downloadType"] == "serverBedrockLinux") {
+                            LinuxSerDownaddr = item["downloadUrl"];
+                            int 最后一个左斜杠位置 = LinuxSerDownaddr.LastIndexOf("/");
+                            LinuxSaveFilename = LinuxSerDownaddr.Substring(最后一个左斜杠位置 + 1);
+                            int 版本号开始位置 = 最后一个左斜杠位置 + 1 + "bedrock-server-".Length;
+                            LinuxVersion = LinuxSerDownaddr.Substring(版本号开始位置, LinuxSerDownaddr.LastIndexOf(".zip") - 版本号开始位置);
+
+                            DownLinuxServer.Enabled = true;
+                            CopyLinuxAddr.Enabled = true;
+                        }
+                    }
+                }
+            } catch(Exception ex) {
+                this.BeginInvoke(new Analysis_class(TagShow), new object[] { "解析JSON异常，" + ex.Message + " " + Httpdata });
+                return;
+            }
+
+            /**
+             * {"result":{"links":[{"downloadType":"serverBedrockWindows","downloadUrl":"https://www.minecraft.net/bedrockdedicatedserver/bin-win/bedrock-server-1.21.92.1.zip"},{"downloadType":"serverBedrockLinux","downloadUrl":"https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-1.21.92.1.zip"},{"downloadType":"serverBedrockPreviewWindows","downloadUrl":"https://www.minecraft.net/bedrockdedicatedserver/bin-win-preview/bedrock-server-1.21.100.21.zip"},{"downloadType":"serverBedrockPreviewLinux","downloadUrl":"https://www.minecraft.net/bedrockdedicatedserver/bin-linux-preview/bedrock-server-1.21.100.21.zip"},{"downloadType":"serverJar","downloadUrl":"https://piston-data.mojang.com/v1/objects/6e64dcabba3c01a7271b4fa6bd898483b794c59b/server.jar"}]}}
+             */
 
             //TagShow("寻找Windows下载地址特征开始位置");
-            Winstartposition = Httpdata.IndexOf(PilterA);
-            if (Winstartposition > -1)
-            {
-                //TagShow("寻找Windows下载地址特征结束位置");
-                zipstartposition_win = Httpdata.IndexOf(PilterB, Winstartposition);
-                //TagShow("过滤出Windows服务器最新版本");
-                WinVersion = Httpdata.Substring(Winstartposition + PilterA.Length, zipstartposition_win - Winstartposition - PilterA.Length);
-                //TagShow("计算Windows下载地址长度");
-                WinaddrLong = zipstartposition_win + PilterB.Length - Winstartposition;
-                //TagShow("找出Windows下载地址");
-                WinSerDownaddr = Httpdata.Substring(Winstartposition, WinaddrLong);
 
-                Linuxstartposition = Httpdata.IndexOf(PilterC);
-                zipstartposition_linux = Httpdata.IndexOf(PilterB, Linuxstartposition);
-                LinuxVersion = Httpdata.Substring(Linuxstartposition + PilterC.Length, zipstartposition_linux - Linuxstartposition - PilterC.Length);
-                LinuxaddrLong = zipstartposition_linux + PilterB.Length - Linuxstartposition;
-                LinuxSerDownaddr = Httpdata.Substring(Linuxstartposition, LinuxaddrLong);
-
+            if (WinSerDownaddr != "" && LinuxSerDownaddr != "") {
                 this.BeginInvoke(new Analysis_class(TagShow), new object[] { $"Win版本：{WinVersion},Linux版本：{LinuxVersion}" });
-            }
-            else
-            {
+            } else {
                 TagShow("可能官网出现问题,没有找到标识,请等待更新, desktop::Error.log.txt");
                 File.WriteAllText(String.Format(@"C:\Users\{0}\Desktop\Error.log.txt", Environment.GetEnvironmentVariable("UserName").ToString()), Httpdata);
             }
@@ -117,8 +131,8 @@ namespace 我的世界服务器文件下载
                 TagShow("开始下载Windows服务端程序");
 
                 
-                Download DownWinServer = new Download(WinSerDownaddr, SaveParh, $"WinSer{WinVersion}.zip");
-                DownWinServer.Suffix = ".MCBDS";    //定义下载的缓存文件后缀
+                Download DownWinServer = new Download(WinSerDownaddr, SavePath, WinSaveFilename);
+                DownWinServer.Suffix = ".mcbds";    //定义下载的缓存文件后缀
 
                 int win_percent;
                 DownWinServer.Downprogress += (long filesize, long httpsize, bool isok) =>  //下载回调函数
@@ -126,7 +140,7 @@ namespace 我的世界服务器文件下载
                     if (isok)   //回调函数中指示下载完成
                     {
                         this.DownWinServer.Enabled = true;
-                        TagShow($"WinSer{WinVersion}.zip下载完成");
+                        TagShow($"{WinSaveFilename} 下载完成");
                     }
                     win_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
                     if (win_percent <= 100) Win_Bar.Value = win_percent;
@@ -136,15 +150,15 @@ namespace 我的世界服务器文件下载
                 {
                     case 0:
                         this.DownWinServer.Enabled = true;
-                        TagShow($"WinSer{WinVersion}.zip下载失败");
+                        TagShow($"{WinSaveFilename} 下载失败");
                         break;
                     case 1:
                         this.DownWinServer.Enabled = false;
-                        TagShow($"WinSer{WinVersion}.zip开始下载");
+                        TagShow($"{WinSaveFilename} 开始下载");
                         break;
                     case 2:
                         this.DownWinServer.Enabled = true;
-                        TagShow($"WinSer{WinVersion}.zip下载完成");
+                        TagShow($"{WinSaveFilename} 下载完成");
                         break;
                 }
             }
@@ -163,15 +177,15 @@ namespace 我的世界服务器文件下载
             {
                 TagShow("开始下载Linux服务端程序");
                 //开始实例化下载
-                Download DownLinuxServer = new Download(LinuxSerDownaddr, SaveParh, $"LinuxSer{LinuxVersion}.zip");
-                DownLinuxServer.Suffix = ".MCBDS";
+                Download DownLinuxServer = new Download(LinuxSerDownaddr, SavePath, LinuxSaveFilename);
+                DownLinuxServer.Suffix = ".mcbds";
                 int lin_percent;
                 DownLinuxServer.Downprogress += (long filesize, long httpsize, bool isok) =>
                 {
                     if (isok)
                     {
                         this.DownLinuxServer.Enabled = true;
-                        TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
+                        TagShow($"{LinuxSaveFilename} 下载完成");
                     }
 
                     lin_percent = Download.GetintPercent(filesize, httpsize);   //计算并在进度条上显示下载进度
@@ -182,15 +196,15 @@ namespace 我的世界服务器文件下载
                 {
                     case 0:
                         this.DownLinuxServer.Enabled = true;
-                        TagShow($"LinuxSer{LinuxVersion}.zip下载失败");
+                        TagShow($"{LinuxSaveFilename} 下载失败");
                         break;
                     case 1:
                         this.DownLinuxServer.Enabled = false;
-                        TagShow($"LinuxSer{LinuxVersion}.zip开始下载");
+                        TagShow($"{LinuxSaveFilename} 开始下载");
                         break;
                     case 2:
                         this.DownLinuxServer.Enabled = true;
-                        TagShow($"LinuxSer{LinuxVersion}.zip下载完成");
+                        TagShow($"{LinuxSaveFilename} 下载完成");
                         break;
                 }
 
@@ -251,11 +265,11 @@ namespace 我的世界服务器文件下载
         // 用于移动窗口
         private void TitleMenu_MouseDown(object sender, MouseEventArgs e)
         {
-            Tools.Formoperate.WinForms.MoveFrom(this.Handle);
+            Tools.Formoperate.WinForms.MoveForm(this.Handle);
         }
         private void TITLE_MouseDown(object sender, MouseEventArgs e)
         {
-            Tools.Formoperate.WinForms.MoveFrom(this.Handle);
+            Tools.Formoperate.WinForms.MoveForm(this.Handle);
         }
 
         private void setup_Click(object sender, EventArgs e)
@@ -271,11 +285,11 @@ namespace 我的世界服务器文件下载
             string strResult = "";
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
                 //声明一个HttpWebRequest请求
                 request.Timeout = 10 * 1000;  //设置连接超时时间
-                request.Host = "www.minecraft.net";
+                request.Host = "net-secondary.web.minecraft-services.net";
                 request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
                 //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0";
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36212.18 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "我的世界服务器文件下载", "我的世界服务器文件下载\我的世界服务器文件下载.csproj", "{43941351-4DC1-494A-9085-A00468908F06}"
 EndProject
@@ -13,13 +13,19 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{43941351-4DC1-494A-9085-A00468908F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43941351-4DC1-494A-9085-A00468908F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43941351-4DC1-494A-9085-A00468908F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43941351-4DC1-494A-9085-A00468908F06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43941351-4DC1-494A-9085-A00468908F06}.Debug|x64.ActiveCfg = Debug|x64
+		{43941351-4DC1-494A-9085-A00468908F06}.Debug|x64.Build.0 = Debug|x64
+		{43941351-4DC1-494A-9085-A00468908F06}.Release|Any CPU.ActiveCfg = Release|x64
+		{43941351-4DC1-494A-9085-A00468908F06}.Release|Any CPU.Build.0 = Release|x64
+		{43941351-4DC1-494A-9085-A00468908F06}.Release|x64.ActiveCfg = Release|x64
+		{43941351-4DC1-494A-9085-A00468908F06}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

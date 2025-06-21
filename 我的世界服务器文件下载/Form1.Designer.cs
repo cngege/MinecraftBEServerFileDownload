@@ -192,6 +192,7 @@
             // CopyLinuxAddr
             // 
             this.CopyLinuxAddr.AutoSize = true;
+            this.CopyLinuxAddr.Enabled = false;
             this.CopyLinuxAddr.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.CopyLinuxAddr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CopyLinuxAddr.ForeColor = System.Drawing.Color.White;
@@ -206,6 +207,7 @@
             // CopyWinAddr
             // 
             this.CopyWinAddr.AutoSize = true;
+            this.CopyWinAddr.Enabled = false;
             this.CopyWinAddr.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.CopyWinAddr.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CopyWinAddr.ForeColor = System.Drawing.Color.White;
@@ -220,6 +222,7 @@
             // DownLinuxServer
             // 
             this.DownLinuxServer.AutoSize = true;
+            this.DownLinuxServer.Enabled = false;
             this.DownLinuxServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.DownLinuxServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DownLinuxServer.ForeColor = System.Drawing.Color.White;
@@ -234,6 +237,7 @@
             // DownWinServer
             // 
             this.DownWinServer.AutoSize = true;
+            this.DownWinServer.Enabled = false;
             this.DownWinServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Black;
             this.DownWinServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DownWinServer.ForeColor = System.Drawing.Color.White;

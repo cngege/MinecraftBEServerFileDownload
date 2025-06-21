@@ -56,7 +56,7 @@ namespace 我的世界服务器文件下载
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Tools.Formoperate.WinForms.MoveFrom(this.Handle);
+            Tools.Formoperate.WinForms.MoveForm(this.Handle);
         }
 
         private void Selectpath_Click(object sender, EventArgs e)
@@ -76,7 +76,7 @@ namespace 我的世界服务器文件下载
             savedata.Write("SaveSay","key",RadioBtn1.Checked?"0":"1");  //存储选择框选中项
             savedata.Write("SavePath","key",PathText.Text);
 
-            MainForm.SaveParh = PathText.Text;
+            MainForm.SavePath = PathText.Text;
 
             SetupTitle.Text = "设置-已保存";
         }
